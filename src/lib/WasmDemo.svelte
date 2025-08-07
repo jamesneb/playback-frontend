@@ -90,11 +90,11 @@
 </script>
 
 <div class="wasm-demo">
-	<h2>🔥 FINAL BOSS MODE: WebGPU + WASM 🔥</h2>
+	<h2>WebGPU Rendering Engine</h2>
 	
 	<div class="status">
-		WASM: {wasmLoaded ? '✅ Loaded' : '⏳ Loading...'}
-		| WebGPU: {webgpuInitialized ? '🔥 ACTIVATED' : '💤 Not initialized'}
+		WASM: {wasmLoaded ? 'Ready' : 'Loading...'}
+		| WebGPU: {webgpuInitialized ? 'Initialized' : 'Standby'}
 	</div>
 
 	<div class="canvas-container">
@@ -103,22 +103,22 @@
 
 	<div class="buttons">
 		<button on:click={initWebGPU} disabled={!wasmLoaded || webgpuInitialized}>
-			🚀 Initialize WebGPU
+			Initialize Renderer
 		</button>
 		<button on:click={callHello} disabled={!webgpuInitialized}>
-			🎨 Render "Hello WASM! 🦀"
+			Render Text Sample
 		</button>
 		<button on:click={callAdd} disabled={!webgpuInitialized}>
-			🔢 Render "5 + 3 = 8"
+			Render Mathematics
 		</button>
 		<button on:click={callGreet} disabled={!webgpuInitialized}>
-			👋 Render Greeting
+			Render Message
 		</button>
-		<button on:click={clearOutput}>🧹 Clear Output</button>
+		<button on:click={clearOutput}>Clear Console</button>
 	</div>
 
 	<div class="output">
-		<h3>Console Output:</h3>
+		<h3>System Log</h3>
 		<pre>{output}</pre>
 	</div>
 </div>
@@ -126,33 +126,50 @@
 <style>
 	.wasm-demo {
 		padding: 2rem;
-		border: 3px solid #ff3e00;
+		border: 1px solid rgba(99, 102, 241, 0.2);
 		border-radius: 12px;
 		margin: 1rem 0;
-		background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-		color: #fff;
-		box-shadow: 0 8px 32px rgba(255, 62, 0, 0.3);
+		background: linear-gradient(135deg, #0f0f23 0%, #1a1b3e 100%);
+		color: #e2e8f0;
+		box-shadow: 
+			0 4px 6px -1px rgba(0, 0, 0, 0.1),
+			0 2px 4px -1px rgba(0, 0, 0, 0.06),
+			0 0 0 1px rgba(99, 102, 241, 0.05);
+		backdrop-filter: blur(8px);
 	}
 
 	h2 {
 		text-align: center;
-		background: linear-gradient(45deg, #ff3e00, #ffd700);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-		font-size: 2rem;
-		margin-bottom: 1rem;
-		text-shadow: 0 0 20px rgba(255, 62, 0, 0.5);
+		color: #f8fafc;
+		font-size: 1.5rem;
+		font-weight: 600;
+		margin-bottom: 1.5rem;
+		letter-spacing: -0.025em;
+		position: relative;
+	}
+
+	h2::after {
+		content: '';
+		position: absolute;
+		bottom: -8px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 60px;
+		height: 2px;
+		background: linear-gradient(90deg, #6366f1, #8b5cf6);
+		border-radius: 1px;
 	}
 
 	.status {
-		font-weight: bold;
-		margin-bottom: 1rem;
-		padding: 1rem;
-		background: linear-gradient(135deg, #333, #444);
-		border-radius: 8px;
+		font-weight: 500;
+		margin-bottom: 1.5rem;
+		padding: 0.75rem 1rem;
+		background: rgba(30, 41, 59, 0.5);
+		border-radius: 6px;
 		text-align: center;
-		border: 1px solid #555;
+		border: 1px solid rgba(51, 65, 85, 0.3);
+		font-size: 0.875rem;
+		color: #cbd5e1;
 	}
 
 	.canvas-container {
@@ -162,68 +179,124 @@
 	}
 
 	canvas {
-		border: 2px solid #ffd700;
+		border: 1px solid rgba(71, 85, 105, 0.4);
 		border-radius: 8px;
-		background: #000;
-		box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+		background: #000011;
+		box-shadow: 
+			0 10px 15px -3px rgba(0, 0, 0, 0.1),
+			0 4px 6px -2px rgba(0, 0, 0, 0.05),
+			inset 0 1px 0 rgba(99, 102, 241, 0.1);
 	}
 
 	.buttons {
 		display: flex;
 		gap: 0.75rem;
-		margin-bottom: 1.5rem;
+		margin-bottom: 2rem;
 		flex-wrap: wrap;
 		justify-content: center;
 	}
 
 	button {
-		padding: 0.75rem 1.5rem;
-		border: 2px solid #ff3e00;
-		border-radius: 8px;
-		background: linear-gradient(145deg, #ff3e00, #ff6600);
-		color: white;
+		padding: 0.625rem 1.25rem;
+		border: 1px solid transparent;
+		border-radius: 6px;
+		background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+		color: #ffffff;
 		cursor: pointer;
-		transition: all 0.3s ease;
-		font-weight: bold;
-		text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-		box-shadow: 0 4px 15px rgba(255, 62, 0, 0.3);
+		transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+		font-weight: 500;
+		font-size: 0.875rem;
+		box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+		position: relative;
+		overflow: hidden;
+	}
+
+	button::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+		opacity: 0;
+		transition: opacity 0.2s ease;
+		z-index: -1;
+	}
+
+	button:hover:not(:disabled)::before {
+		opacity: 1;
 	}
 
 	button:hover:not(:disabled) {
-		transform: translateY(-2px);
-		box-shadow: 0 6px 25px rgba(255, 62, 0, 0.5);
-		background: linear-gradient(145deg, #ff6600, #ff8800);
+		transform: translateY(-1px);
+		box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+	}
+
+	button:active:not(:disabled) {
+		transform: translateY(0);
+		box-shadow: 0 1px 2px rgba(99, 102, 241, 0.4);
 	}
 
 	button:disabled {
-		opacity: 0.3;
+		opacity: 0.4;
 		cursor: not-allowed;
 		transform: none;
-		box-shadow: none;
-		background: #666;
-		border-color: #666;
+		box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+		background: #475569;
 	}
 
 	.output {
-		border-top: 2px solid #555;
+		border-top: 1px solid rgba(51, 65, 85, 0.3);
 		padding-top: 1.5rem;
+		margin-top: 1rem;
 	}
 
 	.output h3 {
-		color: #ffd700;
-		margin-bottom: 0.5rem;
+		color: #f1f5f9;
+		margin-bottom: 0.75rem;
+		font-size: 0.875rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		opacity: 0.9;
 	}
 
 	pre {
-		background-color: #1a1a1a;
-		color: #00ff00;
-		padding: 1.5rem;
+		background: rgba(15, 23, 42, 0.8);
+		color: #10b981;
+		padding: 1rem;
 		border-radius: 8px;
 		overflow-x: auto;
 		white-space: pre-wrap;
-		min-height: 120px;
-		border: 1px solid #333;
-		font-family: 'Courier New', monospace;
-		line-height: 1.4;
+		min-height: 100px;
+		border: 1px solid rgba(30, 41, 59, 0.5);
+		font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+	}
+
+	/* Responsive design */
+	@media (max-width: 768px) {
+		.wasm-demo {
+			padding: 1.5rem;
+			margin: 0.5rem 0;
+		}
+
+		.buttons {
+			gap: 0.5rem;
+		}
+
+		button {
+			padding: 0.5rem 1rem;
+			font-size: 0.8125rem;
+		}
+
+		canvas {
+			width: 100%;
+			max-width: 400px;
+			height: auto;
+		}
 	}
 </style>
