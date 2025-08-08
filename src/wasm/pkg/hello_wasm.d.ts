@@ -4,6 +4,11 @@ export function init_webgpu(canvas: HTMLCanvasElement): Promise<void>;
 export function hello(): void;
 export function add(a: number, b: number): number;
 export function greet(name: string): string;
+export function parse_arrow_replay(data: Uint8Array): any;
+export function start_service_animation(): void;
+export function render_replay(): void;
+export function stop_animation(): void;
+export function clear_canvas(): void;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
@@ -13,6 +18,11 @@ export interface InitOutput {
   readonly hello: () => [number, number];
   readonly add: (a: number, b: number) => [number, number, number];
   readonly greet: (a: number, b: number) => [number, number, number, number];
+  readonly parse_arrow_replay: (a: number, b: number) => [number, number, number];
+  readonly start_service_animation: () => [number, number];
+  readonly render_replay: () => [number, number];
+  readonly stop_animation: () => [number, number];
+  readonly clear_canvas: () => [number, number];
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly __externref_table_alloc: () => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
@@ -21,9 +31,9 @@ export interface InitOutput {
   readonly __wbindgen_export_5: WebAssembly.Table;
   readonly __externref_table_dealloc: (a: number) => void;
   readonly __wbindgen_free: (a: number, b: number, c: number) => void;
-  readonly closure224_externref_shim: (a: number, b: number, c: any) => void;
-  readonly closure230_externref_shim: (a: number, b: number, c: any) => void;
-  readonly closure257_externref_shim: (a: number, b: number, c: any, d: any) => void;
+  readonly _dyn_core__ops__function__FnMut_____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__h74a1ca5c2b0a03a3: (a: number, b: number) => void;
+  readonly closure1161_externref_shim: (a: number, b: number, c: any) => void;
+  readonly closure1186_externref_shim: (a: number, b: number, c: any, d: any) => void;
   readonly __wbindgen_start: () => void;
 }
 
