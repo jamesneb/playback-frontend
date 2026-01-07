@@ -1,6 +1,15 @@
 [package]
-name = "wasm"
-version = "0.1.0"
-edition = "2024"
+name          =     "playback-core"
+version       =     "0.1.0"
+description   =     "Telemetry DAW Frontend"
+edition       =     "2024"
+repository    =     "https://github.com/jamesneb/playback-frontend"
+license       =     "UNLICENSED"
+publish       =     false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
+taffy = "0.9"
+wasm-bindgen = "0.2"
